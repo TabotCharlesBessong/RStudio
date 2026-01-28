@@ -13,10 +13,16 @@ This directory contains a complete Data Warehouse assignment implementation for 
 ### Option 1: Automatic Setup
 ```r
 # In R Interactive terminal:
-setwd("d:/charlesDevelopment/RStudio/read_data")
+# Option A: If you're already in the read_data folder:
 source("install_all_packages.r")  # Install packages
 source("dsc603_launcher.r")       # Load launcher
 run_full_assignment()             # Run everything
+
+# Option B: Navigate to read_data folder first:
+setwd("read_data")  # If read_data folder is in current directory
+# OR
+setwd("RStudio/read_data")  # If coming from parent directory
+# Then run the sources above
 ```
 
 ### Option 2: Manual Step-by-Step
@@ -28,11 +34,19 @@ Follow the detailed instructions below.
 
 ### Method A: Automatic Package Installation (Recommended)
 ```r
-# Set working directory
-setwd("d:/charlesDevelopment/RStudio/read_data")
+# Simple options (choose what works for your setup):
 
-# Run the package installer
+# Option 1: Already in read_data folder
 source("install_all_packages.r")
+
+# Option 2: Navigate from current location
+setwd("read_data")  # If you see read_data folder
+source("install_all_packages.r")
+
+# Option 3: Check where you are first
+getwd()  # Shows current directory
+list.files()  # Shows files in current directory
+# Navigate as needed, then source the installer
 ```
 
 This installs all required packages:
@@ -163,10 +177,16 @@ source("install_all_packages.r")  # Run package installer first
 ### Problem: "File not found" errors
 **Solution:**
 ```r
-# Ensure correct working directory
-setwd("d:/charlesDevelopment/RStudio/read_data")
-getwd()  # Verify current directory
-list.files()  # Check available files
+# Navigate to the read_data folder containing the assignment files
+# Option 1: If you can see read_data folder
+setwd("read_data")
+
+# Option 2: Check current location first
+getwd()  # Shows where you are
+list.files()  # Shows available files/folders
+
+# Option 3: Look for the README.md file
+file.exists("README.md")  # Should be TRUE when in correct folder
 ```
 
 ### Problem: Dashboard won't launch
