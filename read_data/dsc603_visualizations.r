@@ -1,7 +1,17 @@
-# DSC603 Data Warehouse Visualization Enhancement
-# Advanced charts and graphs for cube data and OLAP operations
+# =============================================================================
+# DSC603 DATA WAREHOUSE VISUALIZATION ENHANCEMENT
+# Purpose: Advanced charts and graphs for cube data and OLAP operations
+# Technology: R's superior statistical visualization capabilities
+# Business Value: Professional-grade analytics visualization beyond basic BI tools
+# =============================================================================
 
-# Load required libraries for visualization
+# =============================================================================
+# ADVANCED VISUALIZATION PACKAGE ECOSYSTEM
+# Purpose: Comprehensive visualization capabilities for business intelligence
+# Advantage over Power BI: Unlimited customization and statistical integration
+# =============================================================================
+
+# Load required libraries for advanced visualization
 required_packages <- c("ggplot2", "dplyr", "plotly", "reshape2", "RColorBrewer", "gridExtra")
 
 for (package in required_packages) {

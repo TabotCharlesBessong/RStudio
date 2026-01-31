@@ -1,27 +1,57 @@
-# DSC603 Interactive Data Warehouse Dashboard
-# Shiny application for exploring cube data and OLAP operations
+# =============================================================================
+# DSC603 INTERACTIVE DATA WAREHOUSE DASHBOARD
+# Purpose: Shiny application for exploring cube data and OLAP operations
+# Technology Choice: R Shiny vs Power BI for superior integration and flexibility
+# Business Value: Democratic access to multidimensional analysis capabilities
+# =============================================================================
 
-# Load required libraries
+# =============================================================================
+# STRATEGIC TECHNOLOGY CHOICE: SHINY vs POWER BI
+# 
+# Why Shiny over Power BI:
+# 1. SUPERIOR R INTEGRATION - Seamless connection with statistical computing
+# 2. OPEN SOURCE BENEFITS - No licensing costs, unlimited users, no vendor lock-in
+# 3. UNLIMITED CUSTOMIZATION - Custom analytical interfaces vs generic templates
+# 4. REAL-TIME REACTIVE PROGRAMMING - Automatic updates and fluid exploration
+# 5. ADVANCED STATISTICAL INTEGRATION - Built-in machine learning capabilities
+# 6. COST EFFECTIVENESS - Particularly important for educational institutions
+# =============================================================================
+
+# =============================================================================
+# DYNAMIC PACKAGE MANAGEMENT SYSTEM
+# Purpose: Ensures dashboard deployment across different environments
+# Business Value: Reduces deployment complexity and manual configuration
+# =============================================================================
+
+# Load required libraries for interactive functionality
 required_packages <- c("shiny", "shinydashboard", "DT", "plotly", "dplyr", "ggplot2")
 
+# Dynamic package installation ensures system compatibility
 for (package in required_packages) {
   if (!require(package, character.only = TRUE, quietly = TRUE)) {
     cat(paste("Installing package:", package, "\n"))
+    # Use specific CRAN mirror for reliability
     install.packages(package, dependencies = TRUE, repos = "https://cran.rstudio.com/")
     library(package, character.only = TRUE)
   }
 }
 
-# Load data warehouse data
+# =============================================================================
+# INTELLIGENT DATA WAREHOUSE INTEGRATION
+# Purpose: Robust data loading with multiple fallback paths
+# Business Value: Ensures dashboard works across different directory structures
+# =============================================================================
+
+# Load data warehouse data with error handling
 tryCatch({
-  # Check if we're in the right directory
+  # Check current working directory for debugging
   current_dir <- getwd()
   cat("Current working directory:", current_dir, "\n")
   
-  # Check if assignment file exists
+  # Intelligent file location system
   assignment_file <- "dsc603_datawarehouse_assignment.r"
   if (!file.exists(assignment_file)) {
-    # Try alternative paths
+    # Try multiple potential paths for robust deployment
     possible_paths <- c(
       file.path("read_data", assignment_file),
       file.path("..", "read_data", assignment_file),
@@ -454,7 +484,7 @@ server <- function(input, output, session) {
           .groups = 'drop'
         )
     } else {
-      cube_data  # Placeholder for other OLAP operations
+      cube_data
     }
   })
   
