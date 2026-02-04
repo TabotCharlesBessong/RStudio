@@ -16,4 +16,20 @@ Each yellow dot represents data points (likely employees) positioned in this 3D 
 
 The cube enables multidimensional analysis of the HR Employee Attrition dataset, making it easier to discover insights about workforce composition and potential attrition factors.
 
+## Question 2: What does the slice operation plot represent, and what is the significance of each bubble with respect to slicing in data mining?
+
+**Answer:**
+This plot shows a **slice operation** where the Quarter dimension is fixed to Q2, creating a 2D view from the 3D cube.
+
+**What Slicing Does in Data Mining:**
+Slicing **reduces dimensions** by fixing one dimension to a specific value. It's like cutting a piece from the data cube to focus on a subset.
+
+**In This Plot:**
+- Each bubble = employees with specific Education Level + Department in Q2 only
+- Bubble size = number of employees
+- Bubble color = department type
+- Shows patterns within just Q2 data, ignoring other quarters
+
+**Purpose:** Slicing helps analysts focus on specific subsets of data (like "only Q2 employees") to find patterns without being overwhelmed by the full dataset.
+
 ---
