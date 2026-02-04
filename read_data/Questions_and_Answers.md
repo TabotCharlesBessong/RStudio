@@ -74,4 +74,39 @@ Dicing **applies multiple filters across different dimensions** at once, creatin
 **Data Mining Benefit:**
 Dicing enables complex queries like "Show me employees from Q1-Q3, in HR and Sales departments, with education levels 1-4, and working load scores between 2.0-4.0" - providing highly targeted analysis for specific business questions.
 
+## Question 4: What does this OLAP roll-up operation show, and what is the concept of roll-up in data mining?
+![alt text](image-4.png)
+**Answer:**
+This image demonstrates a **roll-up (aggregation) operation** which summarizes data by removing detailed dimensions and aggregating values.
+
+**What Roll-up Does in Data Mining:**
+Roll-up **moves from detailed data to summary data** by climbing up the dimensional hierarchy. It removes lower-level details and aggregates values using functions like SUM, AVG, COUNT.
+
+**In This Roll-up Operation:**
+- **Removed Dimension**: Education Level (no longer visible)
+- **Kept Dimensions**: Time (Quarter) + Department  
+- **Aggregation**: Data is summarized by Quarter and Department combinations
+
+**The Line Chart Shows:**
+- **X-axis**: Quarterly progression (Q1 → Q2 → Q3 → Q4)
+- **Y-axis**: Average Working Load Score (aggregated metric)
+- **Three Lines**: 
+  - **Red**: Human Resources trends
+  - **Green**: Research & Development trends  
+  - **Blue**: Sales trends
+
+**Key Insights from Visualization:**
+- **HR (Red)**: Shows high workload in Q1 (2.35), drops dramatically in Q2 (2.0), then rises sharply to peak in Q4 (2.5)
+- **R&D (Green)**: Steady upward trend from Q1 (2.2) to Q3 (2.3), then slight decline in Q4 (2.25)
+- **Sales (Blue)**: Relatively stable around 2.1-2.2 across all quarters
+
+**Why This Data is Displayed:**
+The aggregated table shows **summary statistics** rather than individual employee records:
+- **TotalEmployees**: Count of employees per department per quarter
+- **AvgWorkingLoadScore**: Average workload across all education levels
+- **AvgMonthlyIncome**: Average salary across all education levels
+
+**Business Value:**
+Roll-up enables **executive-level insights** by showing department performance trends over time without getting lost in individual employee details. Perfect for strategic planning and resource allocation decisions.
+
 ---
