@@ -47,4 +47,31 @@ The table displays **only Human Resources entries** because the slice operation 
 
 **Purpose:** Slicing helps analysts focus on specific subsets of data (like "only Q2 employees" or "only HR employees") to find patterns without being overwhelmed by the full dataset.
 
+## Question 3: What does this dice operation image represent, and what is dicing in data mining?
+![alt text](image-3.png)
+
+**Answer:**
+This image shows a **dice operation** which is more complex than slicing - it allows **multi-dimensional filtering** simultaneously.
+
+**What Dicing Does in Data Mining:**
+Dicing **applies multiple filters across different dimensions** at once, creating a "sub-cube" rather than a simple slice. It's like selecting specific ranges or values from multiple dimensions simultaneously.
+
+**In This Dice Operation:**
+- **Multi-Dimension Controls**: Checkboxes for Quarters (Q1-Q4), Departments (HR, R&D, Sales), Education Levels (1-5)
+- **Range Filtering**: Working Load Score slider (1.0-5.0) adds another filtering layer
+- **Result**: A filtered dataset containing only records that meet ALL selected criteria
+
+**The Visualization Shows:**
+- **X-axis**: Quarter + Department combinations (e.g., "Q1 Human Resources", "Q1 Research & Development")
+- **Y-axis**: Working Load Score
+- **Colored Bars**: Different education levels (1=yellow, 2=orange, 3=teal, 4=blue, 5=pink)
+- **Bar Height**: Actual working load score values
+
+**Key Difference from Slicing:**
+- **Slice**: Fixes ONE dimension (e.g., "only Q2" or "only HR")
+- **Dice**: Filters MULTIPLE dimensions (e.g., "Q1-Q3 + HR & Sales + Education 1-4 + WorkLoad 2.0-4.0")
+
+**Data Mining Benefit:**
+Dicing enables complex queries like "Show me employees from Q1-Q3, in HR and Sales departments, with education levels 1-4, and working load scores between 2.0-4.0" - providing highly targeted analysis for specific business questions.
+
 ---
