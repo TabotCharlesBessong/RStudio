@@ -150,3 +150,42 @@ fact_table <- employee_data %>%
 print("Fact Table:")
 print(head(fact_table, 5))
 cat("Total number of fact records: ", nrow(fact_table), "\n")
+
+# DATA CUBE IMPLEMENTATION
+cat("\n=== DATA CUBE IMPLEMENTATION ===\n")
+
+# Create a summary cube data for visualization
+cube_data <- fact_table %>%
+  # Dimension integration for cube creation
+  # we will add time dimension context by joining with time_dim
+  left_join(time_dim %>% select(TimeID, Quarter), by = "TimeID") %>%
+  # Add organizational dimension context (department)
+  left_join(department_dim %>% select(DepartmentID, Department), by = "DepartmentID") %>%
+  # Add organizational dimension context (education level)
+  left_join(education_dim %>% select(EducationID, Education), by = "EducationID") %>%
+
+  # Multidimensional aggregation for cube creation
+  group_by(Quarter, Department, Education) %>%
+
+  # calculate aggregated measures for each cube cell
+  summarise(
+    # average working load score for the cell
+    AvgWorkingLoadScore = round(mean(WorkingLoadScore, na.rm = TRUE), 2),
+
+    # Average monthly income for the cell
+    AvgMonthlyIncome = round(mean(MonthlyIncome, na.rm = TRUE), 2),
+
+    # Employee count
+    # Population size for statistical significance assessment
+    EmployeeCount = n(),
+
+    # average job satisfaction for the cell
+    AvgJobSatisfaction = round(mean(JobSatisfaction, na.rm = TRUE), 2),
+
+    # Drop grouping for subsequent 
+    .groups = "drop"
+  )
+
+cat("\nData Cube Summary:\n")
+print(head(cube_data, 10))
+cat("Total number of cube cells: ", nrow(cube_data), "\n")
