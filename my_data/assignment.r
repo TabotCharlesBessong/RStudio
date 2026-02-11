@@ -101,3 +101,52 @@ department_dim <- employee_data %>%
 print("Department Dimension Table:")
 print(head(department_dim, 5))
 cat("Total number of unique department-job role combinations: ", nrow(department_dim), "\n")
+
+# FACT TABLE CREATION
+cat("\nCreating Fact Table...\n")
+
+fact_table <- employee_data %>%
+  # Dimension integration: Join with Employee Dimension to get EmployeeID
+  left_join(employee_dim %>% select(EmployeeID, EmployeeNumber), by = "EmployeeNumber") %>%
+  # Join with Education Dimension to get EducationID
+  left_join(education_dim %>% select(EducationID, Education, EducationField), 
+            by = c("Education", "EducationField")) %>%
+  # Join with Department Dimension to get DepartmentID
+  left_join(department_dim %>% select(DepartmentID, Department, JobRole), 
+            by = c("Department", "JobRole")) %>%
+  # Simulate temporal distribution for demonstration purposes
+  mutate(TimeID = sample(1:12,nrow(employee_data), replace = TRUE)) %>%
+  # CORE MEASUREMENT SELECTION
+  # Select foreign keys and business metrics relevant to attrition analysis
+  select(
+    EmployeeID, TimeID, EducationID, DepartmentID,
+    
+    MonthlyIncome, HourlyRate, DailyRate, MonthlyRate,
+    PercentSalaryHike, StockOptionLevel,
+    
+    WorkLifeBalance, JobSatisfaction, EnvironmentSatisfaction, 
+    JobInvolvement, PerformanceRating, RelationshipSatisfaction,
+    
+    # WORKING LOAD INDICATORS (Stress and Workload Metrics)
+    OverTime, BusinessTravel, TrainingTimesLastYear
+  ) %>%
+
+  # CALCULATED MEASURE DEVELOPMENT
+  # Create composite metrics for enhanced analysis
+  mutate(
+    # WORKING LOAD SCORE - Composite stress indicator
+    # Formula: (Overtime weight + Job involvement + Work-life balance + Inverted satisfaction) / 4
+    WorkingLoadScore = (
+      as.numeric(OverTime == "Yes") * 2 + JobInvolvement + WorkLifeBalance + (5 - JobSatisfaction)
+    ) / 4,
+
+    TotalCompensation = MonthlyIncome + HourlyRate * 160 + DailyRate * 20
+  ) %>%
+
+  mutate(FactID = row_number()) %>%
+  select(FactID, everything())
+
+
+print("Fact Table:")
+print(head(fact_table, 5))
+cat("Total number of fact records: ", nrow(fact_table), "\n")
