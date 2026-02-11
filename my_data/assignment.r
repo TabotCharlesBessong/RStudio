@@ -189,3 +189,86 @@ cube_data <- fact_table %>%
 cat("\nData Cube Summary:\n")
 print(head(cube_data, 10))
 cat("Total number of cube cells: ", nrow(cube_data), "\n")
+
+
+# PART 3 SLICE AND DICE ANALYSIS OLAP OPERATIONS
+
+cat("\n=== PART 3: SLICE AND DICE ANALYSIS (OLAP OPERATIONS) ===\n")
+
+cat("SLICE OPERATION: Analyzing Q1 data...\n")
+slice_q1 <- cube_data %>%
+  filter(Quarter == "Q1") %>%
+  # select remaining dimensions and measures for analysis
+  select(
+    Department, 
+    Education, 
+    AvgWorkingLoadScore, 
+    AvgMonthlyIncome, 
+    EmployeeCount
+  )
+
+cat("\nSliced Data (Q1):\n")
+print(slice_q1)
+cat("\nDICE OPERATION: Analyzing Q1 data for Sales department with Bachelor's degree...\n")
+
+# Slice operation 2: organazational focus analysis
+# OLAP Operations: Fix department dimension to sales, analyze time x Education
+
+slice_sales <- cube_data %>%
+  # Slice: Fix Department dimension to sales only
+  filter(Department == "Sales") %>%
+  # Select remaining dimensions and measures for analysis
+  select(
+    Quarter, 
+    Education, 
+    AvgWorkingLoadScore, 
+    AvgMonthlyIncome, 
+    EmployeeCount
+  )
+
+cat("\nDiced Data (Sales Department):\n")
+print(slice_sales)
+
+# DICE OPERATION 1: Multi-dimensional focus analysis
+# OLAP Operations: Apply multiple filters across time and department dimensions
+
+cat("DICE OPERATION 1: Quarter IN (Q1, Q2) AND Department IN (Sales, Research & Development)\n")
+
+dice_q1q2_sales_rd <- cube_data %>%
+  # dice filter 1: restrict time dimension to Q1 and Q2
+  filter(Quarter %in% c("Q1", "Q2")) %>%
+  # dice filter 2: restrict department to strategic business units
+  filter(Department %in% c("Sales", "Research & Development")) %>%
+  # select remaining dimensions and measures for analysis
+  select(
+    Quarter, 
+    Department, 
+    Education, 
+    AvgWorkingLoadScore, 
+    AvgMonthlyIncome, 
+    EmployeeCount
+  )
+
+print(dice_q1q2_sales_rd)
+cat("\nTotal number of records after DICE operation: ", nrow(dice_q1q2_sales_rd), "\n")
+
+# dice operation 2: working load analysis
+cat("DICE OPERATION 2: Analyzing high working load scores (>= 2.5) and High Income (> 5000) across all dimensions...\n")
+dice_high_load_income <- cube_data %>%
+  # dice filter 1: focus on high working load scores
+  filter(AvgWorkingLoadScore >= 2.5) %>%
+  # dice filter 2: focus on high income employees
+  filter(AvgMonthlyIncome > 5000) %>%
+  # select remaining dimensions and measures for analysis
+  select(
+    Quarter, 
+    Department, 
+    Education, 
+    AvgWorkingLoadScore, 
+    AvgMonthlyIncome, 
+    EmployeeCount
+  )
+
+cat("\nDiced Data (High Load and Income):\n")
+print(dice_high_load_income)
+cat("\nTotal number of records after DICE operation: ", nrow(dice_high_load_income), "\n")
