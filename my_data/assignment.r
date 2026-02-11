@@ -272,3 +272,45 @@ dice_high_load_income <- cube_data %>%
 cat("\nDiced Data (High Load and Income):\n")
 print(dice_high_load_income)
 cat("\nTotal number of records after DICE operation: ", nrow(dice_high_load_income), "\n")
+
+# PART 4: ADVANCED CUBE OPERATIONS - DRILL DOWN AND ROLL UP
+
+cat("\n=== PART 4: ADVANCED CUBE OPERATIONS - DRILL DOWN AND ROLL UP ===\n")
+rollup_dept <- cube_data %>%
+  group_by(Quarter, Education) %>%
+  summarise(
+    TotalEmployees = sum(EmployeeCount),
+    AvgWorkingLoadScore = round(weighted.mean(AvgWorkingLoadScore, EmployeeCount, na.rm = TRUE), 2),
+    AvgMonthlyIncome = round(weighted.mean(AvgMonthlyIncome, EmployeeCount, na.rm = TRUE), 2),
+    # EmployeeCount = sum(EmployeeCount),
+    .groups = "drop"
+  )
+
+cat("\nRolled-up Data (Department rolled up):\n")
+print(rollup_dept)
+cat("\nTotal number of records after ROLL UP operation: ", nrow(rollup_dept), "\n")
+
+# DRILL-DOWN OPERATION: break down by additional dimensions (Job satisfaction levels)
+cat("DRILL-DOWN OPERATION: Breaking down by Job Satisfaction levels...\n")
+drilldown_job_satisfaction <- fact_table %>%
+  # Join with time dimension for temporal context
+  left_join(time_dim %>% select(TimeID, Quarter), by = "TimeID") %>%
+  # Join with department dimension for organizational context
+  left_join(department_dim %>% select(DepartmentID, Department), by = "DepartmentID") %>%
+  mutate(JobSatisfactionLevel = case_when(
+    JobSatisfaction <= 2 ~ "Low",
+    JobSatisfaction == 3 ~ "Medium",
+    JobSatisfaction >= 4 ~ "High"
+  )) %>%
+  group_by(Quarter, Department, JobSatisfactionLevel) %>%
+  summarise(
+    EmployeeCount = n(),
+    AvgWorkingLoadScore = round(mean(WorkingLoadScore, EmployeeCount, na.rm = TRUE), 2),
+    AvgMonthlyIncome = round(mean(MonthlyIncome, EmployeeCount, na.rm = TRUE), 2),
+    .groups = "drop"
+  ) %>%
+  arrange(Quarter, Department, JobSatisfactionLevel)
+
+cat("\nDrilled-down Data (by Job Satisfaction Levels):\n")
+print(drilldown_job_satisfaction)
+cat("\nTotal number of records after DRILL-DOWN operation: ", nrow(drilldown_job_satisfaction), "\n")
